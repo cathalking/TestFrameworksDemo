@@ -3,7 +3,7 @@ package examples.spock.datadriven;
 import spock.lang.*
 import examples.login.*
 
-class LoginSpec extends Specification {
+class LoginSpecTest extends Specification {
 
 
 	@Unroll
