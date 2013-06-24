@@ -22,7 +22,7 @@ class LoginToIDoneThisSpec extends GebSpec {
 		$("input", value: "Login").click()
 	 
 		then: "Then I should see the profile page"
-		assertThat(title).contains("Profile")
+		title.contains "Profile"
 	}
 }
 

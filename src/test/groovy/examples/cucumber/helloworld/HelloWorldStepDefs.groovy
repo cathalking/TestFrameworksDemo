@@ -8,19 +8,18 @@ String hii;
 
 this.metaClass.mixin(cucumber.api.groovy.EN)
 
-Given(~'I have a hello app with "([^"]*)"$') { someGreeting -> 
-	// hello = new Hello("someGreeting");
-	hello = new Hello(someGreeting);
+Given(~'I have a hello app with "([^"]*)"$') { someGreeting ->
+    hello = new Hello(someGreeting);
 }
 
 When(~'I ask it to say hi') { ->
-	hi = hello.sayHi();
+    hi = hello.sayHi();
 }
 
 When(~'I ask it to say hey') { ->
-	hi = hello.sayHey();
+    hi = hello.sayHey();
 }
 
-Then(~'it should answer with "([^"]*)"$') { hi ->
-	assert "Hey World" == hi
+Then(~'it should answer with "([^"]*)"$') { hi -> 
+    assert "Hey World" == hi
 }
