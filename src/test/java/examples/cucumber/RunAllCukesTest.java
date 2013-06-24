@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @Cucumber.Options(
 features={"src/test/resources/cucumber"}, 
-glue={"src/test/groovy/cucumber"},
+glue={"src/test/groovy/examples"},
 format={ "json:target/results.json",
         "html:target/cucumber",
         "junit:target/cucumber/junit.xml"})
