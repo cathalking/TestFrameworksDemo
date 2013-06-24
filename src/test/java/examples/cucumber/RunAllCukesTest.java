@@ -15,8 +15,6 @@ public class RunAllCukesTest {
 }
 
 // tags={"@sometag"}, 
-/* 
- * Results in NPE for some reason : 
+/* Results in NPE for some reason : 
  * 'Cannot get property 'fullName' on null object' 
- * at cucumber.examples.datadriven.UserDetailsRepoStub.find(LoginGroovyStepdefs.groovy:33)
- */
+ * at cucumber.examples.datadriven.UserDetailsRepoStub.find(LoginGroovyStepdefs.groovy:33) */
