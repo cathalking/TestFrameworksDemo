@@ -23,6 +23,7 @@ class LoginSpecTest extends Specification {
 		LoginGreeting loginGreeting = loginService.login(userLoggingIn)
 
 		then: "Then greeting should use fullname and 'last seen' date"
+        loginGreeting.fullName == expectedFullName
 		loginGreeting.toString() == "Hi ${expectedFullName}, haven't seen you since ${expectedLastSeen} (current reputation: ${expectedRepPoints})"
 
 		where: 'Login inputs + Expected Login greetings are:'
@@ -31,20 +32,5 @@ class LoginSpecTest extends Specification {
 		'potsie@email.com'	| '234'    || 	'Potsie Webber'		| '20130617'		| '19'
 		'richie@email.org' 	| '456'    || 	'Richie Cunningham'	| '20130613'		| '21'
 
-		//		where: 'Login inputs'
-		//		login             	| password
-		//		'ralph@email.com' 	| '123'
-		//		'potsie@email.com'  | '234'
-		//		'richie@email.org' 	| '456'
-		//
-		//		where: 'Expected Login greetings'
-		//		expectedFullName  	| expectedLastSeen 	| expectedRepPoints
-		//		'Ralph Malph'		| '20130619'		| '15'
-		//		'Potsie Webber' 	| '20130617'		| '19'
-		//		'Richie Cunningham'	| '20130613'		| '21'
-		//
-		// 		expectedFullName << 	['Ralph Malph', 'Potsie Webber', 	'Richie Cunningham']
-		// 		expectedLastSeen << 	['20130619', 	'20130617', 		'20130613']
-		//		expectedRepPoints << 	['15', 			'19', 				'21']
 	}
 }

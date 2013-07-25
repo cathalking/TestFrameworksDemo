@@ -6,7 +6,11 @@ public class LoginGreeting {
 	private String lastSeen;
 	private int repPoints;
 
-	public String getFullName() {
+	public int getRepPoints() {
+        return repPoints;
+    }
+
+    public String getFullName() {
 		return fullName;
 	}
 	

@@ -1,14 +1,14 @@
 package examples.login;
 
-import cucumber.deps.com.thoughtworks.xstream.annotations.XStreamConverter;
-import cucumber.deps.com.thoughtworks.xstream.converters.javabean.JavaBeanConverter;
+//import cucumber.deps.com.thoughtworks.xstream.annotations.XStreamConverter;
+//import cucumber.deps.com.thoughtworks.xstream.converters.javabean.JavaBeanConverter;
 
-@XStreamConverter(JavaBeanConverter.class)
+//@XStreamConverter(JavaBeanConverter.class)
 public class LoginParams {
 
 	private String login;
 	private String password;
-	
+	    
 	public String getLogin() {
 		return login;
 	}

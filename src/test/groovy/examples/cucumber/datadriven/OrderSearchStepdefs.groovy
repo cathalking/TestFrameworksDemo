@@ -4,16 +4,16 @@ import cucumber.api.DataTable
 import examples.ordersearch.groovy.*
 this.metaClass.mixin(cucumber.api.groovy.EN)
 
-List<SearchParams> searchParamsList
-List<SearchResults> searchResultsList
-OrderSearchService orderSearchService = new OrderSearchService()
+List<SearchParamsG> searchParamsList
+List<SearchResultsG> searchResultsList
+OrderSearchServiceG orderSearchService = new OrderSearchServiceG()
 
 Given(~'^I provide following search criteria$') { DataTable arg1 ->
-    searchParamsList = arg1.asList(SearchParams.class)
+    searchParamsList = arg1.asList(SearchParamsG.class)
 }
 
 When(~'^I run the search$') { ->
-    searchResultsList = searchParamsList.collect { SearchParams searchParams ->
+    searchResultsList = searchParamsList.collect { SearchParamsG searchParams ->
 		orderSearchService.execute(searchParams) 
 		}
 }

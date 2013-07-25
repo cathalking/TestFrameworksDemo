@@ -19,8 +19,7 @@ When(~'I login$') { ->
 }
 
 Then(~'^I should see fullname greeting$') { expected ->
-    def actual = loginGreetings.collect {
-        ["fullname":it.fullName, "lastseen":it.lastSeen]}
+    def actual = loginGreetings.collect { ["fullname":it.fullName, "lastseen":it.lastSeen]}
     expected.diff(actual)
 }
 
