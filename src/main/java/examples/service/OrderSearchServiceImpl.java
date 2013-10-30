@@ -10,11 +10,11 @@ import examples.domain.user.Trader;
 import examples.domain.user.User;
 import examples.domain.user.permission.Permission;
 
-public class OrderSearchServiceImpl2 implements OrderSearchService {
+public class OrderSearchServiceImpl implements OrderSearchService {
 	
 	private OrdersDAO ordersDAO;
 
-	public OrderSearchServiceImpl2(OrdersDAO orderDAO) {
+	public OrderSearchServiceImpl(OrdersDAO orderDAO) {
 		this.ordersDAO = orderDAO;
 	}
 
@@ -28,7 +28,7 @@ public class OrderSearchServiceImpl2 implements OrderSearchService {
 				}
 			}
 		}
-		return null;
+		return matchingOrders;
 	}
 
 	private boolean traderHasAccountPermissions(Trader trader, Order order) {
@@ -41,6 +41,6 @@ public class OrderSearchServiceImpl2 implements OrderSearchService {
 
 	private boolean isMatchingOrder(Order order, TradingAccount tradingAccount, String isinCode) {
 		return order.getTradingAccount().equals(tradingAccount) 
-				&& order.getProduct().getIsin().equals(isinCode);
+				&& order.getProduct().getIsinCode().equals(isinCode);
 	}
 }

@@ -32,7 +32,7 @@ public class Trader implements User {
 	}
 
 	public void setPermissions(List<Permission> permissions) {
-		permissions = new ArrayList<>(permissions);
+		this.permissions = new ArrayList<>(permissions);
 	}
 	
 	

@@ -1,9 +1,10 @@
 package examples.domain.securities;
 
+
 public class Equity implements Product {
 
 	@Override
-	public String getIsin() {
+	public String getIsinCode() {
 		// TODO Auto-generated method stub
 		return null;
 	}

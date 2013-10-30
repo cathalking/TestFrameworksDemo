@@ -1,7 +1,8 @@
 package examples.domain.securities;
 
+
 public interface Product {
 	
-	String getIsin();
+	String getIsinCode();
 
 }
