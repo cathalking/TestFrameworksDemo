@@ -1,7 +1,6 @@
 package examples.browser.gebwithspock.pageobject;
 
-import static org.fest.assertions.api.Assertions.*;
-import static org.mockito.BDDMockito.*;
+import java.awt.GraphicsConfiguration.DefaultBufferCapabilities;
 
 import org.junit.Test;
 
@@ -12,31 +11,28 @@ import spock.lang.*
 //@Ignore
 class LoginToIDoneThisSpec extends GebSpec {
 
-	def "I provide username and password I can login" () {
-		given: "I provide logindetails"
+	def "I follow Login link on the Homepage I will land on the Login page" () {
+		given: "I am on the Homepage"
+		to HomePage
 		
 		when: "I login"
-		to HomePage
+        login.click()
 
 		then: "Then I should see the profile page"
-		at HomePage
+		at LoginPage
+	}
 		
-//		when:
-//		to LoginPage
-//		// login.click()
-//		
-//		then:
-//		at LoginPage
-		
-//		when:
-//		username = "cathalking1@gmail.com"
-//		password = "abc123"
-////		loginButton.click()
-//	 
-//		then:
-//		at ProfilePage
+    def "I enter my login details and go to the profile page" () {
+        given:
+        to LoginPage
+
+        when:
+        username = "cathalking1@gmail.com"
+        password = "abc123"
+        loginButton.click()
+
+        then:
+        at ProfilePage
 	}
 }
-
-
 

@@ -13,7 +13,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src/test/resources/cucumber"/>
-	<classpathentry kind="src" path="src/test/groovy"/>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/groovy"/>
 	<classpathentry kind="src" path="src/main/groovy"/>
 	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources">
 		<attributes>

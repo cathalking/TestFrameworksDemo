@@ -12,7 +12,7 @@ format={ "json:target/results.json",
         "html:target/cucumber",
         "junit:target/cucumber/junit.xml"})
 //@Cucumber.Options(format = {"json-pretty:target/cucumber-json-report.json"})
-public class RunAllCukesTest {
+public class RunAllCukesWithGroovyGlueTest {
 }
 
 // tags={"@sometag"}, 
