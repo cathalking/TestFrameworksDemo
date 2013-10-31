@@ -21,8 +21,8 @@ public class OrderSearchServiceImpl implements OrderSearchService {
 	@Override
 	public List<Order> getOrders(Trader trader, TradingAccount tradingAccount, String isinCode) {
 		List<Order> matchingOrders = new ArrayList<>();
-		for (Order order : ordersDAO.getAll()) {
-			if(isMatchingOrder(order, tradingAccount, isinCode)) {
+		for (Order order : ordersDAO.findBy(tradingAccount)) {
+			if(isMatchingOrder(order, isinCode)) {
 				if (traderHasAccountPermissions(trader, order)) {
 					matchingOrders.add(order);
 				}
@@ -33,14 +33,15 @@ public class OrderSearchServiceImpl implements OrderSearchService {
 
 	private boolean traderHasAccountPermissions(Trader trader, Order order) {
 		for (Permission permission : trader.getPermissions()) {
-			if (permission.getTradingAccount().equals(order.getTradingAccount()))
+			TradingAccount tradingAccount = permission.getTradingAccount();
+			if (permission.getTradingAccount().isActive() &&
+					tradingAccount.equals(order.getTradingAccount()))
 				return true;
 		}
 		return false;
 	}
 
-	private boolean isMatchingOrder(Order order, TradingAccount tradingAccount, String isinCode) {
-		return order.getTradingAccount().equals(tradingAccount) 
-				&& order.getProduct().getIsinCode().equals(isinCode);
+	private boolean isMatchingOrder(Order order, String isinCode) {
+		return order.getProduct().getIsinCode().equals(isinCode);
 	}
 }

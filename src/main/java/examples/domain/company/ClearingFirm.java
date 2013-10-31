@@ -2,6 +2,14 @@ package examples.domain.company;
 
 public class ClearingFirm {
 
+	private String name;
+	private String code;
+
+	public ClearingFirm(String name, String code) {
+		super();
+		this.name = name;
+		this.code = code;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -31,6 +39,5 @@ public class ClearingFirm {
 			return false;
 		return true;
 	}
-	String name;
-	String code;
+
 }

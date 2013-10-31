@@ -1,6 +1,7 @@
 package examples.specifyinginputs;
 
 import static org.junit.Assert.*;
+import static examples.domain.company.AccountStatus.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.BDDMockito.*;
 import static org.fest.assertions.api.Assertions.*;
@@ -14,7 +15,10 @@ import java.util.Set;
 import org.junit.Test;
 
 import examples.dao.OrdersDAO;
+import examples.domain.company.AccountStatus;
+import examples.domain.company.ClearingFirm;
 import examples.domain.company.TradingAccount;
+import examples.domain.company.TradingFirm;
 import examples.domain.securities.Future;
 import examples.domain.securities.Product;
 import examples.domain.trading.Order;
@@ -26,84 +30,167 @@ import examples.service.OrderSearchServiceImpl;
 
 public class SpecifyingInputsTest {
 
-//		String coffeeIsinCode = "COF24680";
-//		Future coffeeFuture = new Future("COF.3MNTH", new ISIN("COF24680"));
-	@Test
-	public void getOrders_GivenTraderWithAccountPermissions_SearchingByThatAccountAndIsin_ThenReturnsMatchingOrders() {
+	private static final String DEFAULT_ISIN_CODE = "ISIN";
+	private static final String DEFAULT_FUTURE_DESC = "DESC";
+	
+	@Test public void 
+	getOrders_GivenTraderWithAccountPerms_SearchByAccountAndIsin_ThenReturnsMatchingOrders_v1() {
 		// given - inputs
 		Trader trader = new Trader();
-		TradingAccount tradingAccount = new TradingAccount();
-		trader.setPermissions(Arrays.asList(new Permission(tradingAccount)));
+		TradingAccount tradingAcct = new TradingAccount(new TradingFirm("TraderzRUs", "TRDRZ"), 
+											new ClearingFirm("TooBig2Fail", "2BIG2F"), ACTIVE);
+		trader.setPermissions(Arrays.asList(new Permission(tradingAcct)));
 		String goldIsinCode = "COF24680";
 		// given - system state
 		Future oil3MnthFuture = new Future("OIL.3MNTH", new ISIN("OIL3M0123"));
 		Future oil6MnthFuture = new Future("OIL.6MNTH", new ISIN("OIL6M0456"));
 		Future goldFuture = new Future("GLD.3MNTH", new ISIN(goldIsinCode));
 		String orderId = "ordId";
-		Order order1 = new Order(orderId + 1, tradingAccount, oil3MnthFuture, 1000, 2500);
-		Order order2 = new Order(orderId + 2, tradingAccount, oil6MnthFuture, 1500, 2600);
-		Order order3 = new Order(orderId + 3, tradingAccount, goldFuture, 200, 4300);
-		Order order4 = new Order(orderId + 4, tradingAccount, goldFuture, 150, 4300);
+		Order order1 = new Order(orderId + 1, tradingAcct, oil3MnthFuture, 1000, 2500);
+		Order order2 = new Order(orderId + 2, tradingAcct, oil6MnthFuture, 1500, 2600);
+		Order order3 = new Order(orderId + 3, tradingAcct, goldFuture, 200, 4300);
+		Order order4 = new Order(orderId + 4, tradingAcct, goldFuture, 150, 4300);
 		OrdersDAO orderDAO = new OrdersDAOInMemory(order1, order2, order3, order4);
 		OrderSearchService orderSearchService = new OrderSearchServiceImpl(orderDAO);
 		// when
-		List<Order> orders = orderSearchService.getOrders(trader, tradingAccount, goldIsinCode);
+		List<Order> orders = orderSearchService.getOrders(trader, tradingAcct, goldIsinCode);
 		// then
-		assertEquals(orders.size(), 2);
-		Iterator<Order> itr = orders.iterator();
-		assertEquals(itr.next(), order3);
-		assertEquals(itr.next(), order4);
-		
-		assertThat(orders, hasItems(order3, order4));
-		assertThat(orders.size(), is(2));
-
 		assertThat(orders).containsOnly(order3, order4);
-				
-//				.containsSequence(order3, order4);
-				
-//				.doesNotHaveDuplicates();
 	}
 	
-	@Test
-	public void getPermissions_GivenNewUser_ThenReturnsNoPermissions() {
-		// given
-		Trader trader = new Trader();
-		// when + then
-		assertThat(trader.getPermissions()).isEmpty();
-	}
-	
-	@Test
-	public void getPermissions_GivenNewUser_ThenReturnsNoPermissions2() {
-		// given
-		Trader trader = new Trader();
-		// when + then
-		assertTrue(trader.getPermissions().isEmpty());
-
-		assertThat(trader.getPermissions().isEmpty(), is(true));
-		
-		assertThat(trader.getPermissions()).isEmpty();
-
-		assertThat(trader).hasNoPermissions();
-	}
-	
-	@Test
-	public void methodUnderTest_GivenABC_ThenExpectXYZ() {
-		// given
-		
-		// when
-		
-		// then
-	}
-	
-	@Test
-	public void methodUnderTest_GivenInputsABC_AndSystemStateDEF_ThenExpectXYZ2() {
+	private int nextOrderId = 0;
+	@Test public void // Using helpers
+	getOrders_GivenTraderWithAccountPerms_SearchByAccountAndIsin_ThenReturnsMatchingOrders_v2() {
 		// given - inputs
-		
+		TradingAccount tradingAcct = createTradingAccount();
+		Trader trader = createTraderWithPermissionsFor(tradingAcct);
+		String goldIsinCode = "COF24680";
 		// given - system state
-
+		Future oil3MnthFuture = createFuture("OIL.3MNTH", "OIL3M0123");
+		Future oil6MnthFuture = createFuture("OIL.6MNTH", "OIL6M0456");
+		Future goldFuture = createFuture("GLD.3MNTH", goldIsinCode);
+		Order order1 = createOrder(tradingAcct, oil3MnthFuture, qty(1000), price(2500));
+		Order order2 = createOrder(tradingAcct, oil6MnthFuture, qty(1500), price(2600));
+		Order order3 = createOrder(tradingAcct, goldFuture, qty(200), price(4300));
+		Order order4 = createOrder(tradingAcct, goldFuture, qty(150), price(4300));
+		OrderSearchService orderSearchService = createOrderService(
+													createOrdersDAO(order1, order2, order3, order4));
 		// when
-		
+		List<Order> orders = orderSearchService.getOrders(trader, tradingAcct, goldIsinCode);
 		// then
+		assertThat(orders).containsOnly(order3, order4);
+	}
+	
+	@Test public void // Using helpers + hiding irrelevant details
+	getOrders_GivenTraderWithAccountPerms_SearchByAccountAndIsin_ThenReturnsMatchingOrders_v3() {
+		// given - inputs
+		TradingAccount tradingAcct = createTradingAccount();
+		Trader trader = createTraderWithPermissionsFor(tradingAcct);
+		String goldIsinCode = "COF24680";
+		// given - system state
+		Future goldFuture = createFuture("GLD.3MNTH", goldIsinCode);
+		Order order1 = createOrder(tradingAcct, dummyFuture());
+		Order order2 = createOrder(tradingAcct, dummyFuture(), qty(1500), price(2600));
+		Order order3 = createOrder(tradingAcct, goldFuture, qty(200), price(4300));
+		Order order4 = createOrder(tradingAcct, goldFuture, qty(150), price(4300));
+		OrderSearchService orderSearchService = createOrderService(
+													createOrdersDAO(order1, order2, order3, order4));
+		// when
+		List<Order> orders = orderSearchService.getOrders(trader, tradingAcct, goldIsinCode);
+		// then
+		assertThat(orders).containsOnly(order3, order4);
+	}
+
+//	Order order1 = createOrder(tradingAcct, DUMMY_FUTURE, qty(1000), price(2500));
+	// Could use statics for the dummy values. But the IDE makes them pop out. 
+	// If the most important info pops out that can be very useful
+
+	private Order createOrder(TradingAccount tradingAcct, Future dummyFuture) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Test public void // Using helpers
+	getOrders_GivenTraderWithInactiveAcctPerms_SearchByAccountAndIsin_ThenReturnsNoOrders() {
+		// given - inputs
+		TradingAccount inactiveTradingAcct = createTradingAccount(INACTIVE);
+		TradingAccount tradingAcct = inactiveTradingAcct;
+		Trader trader = createTraderWithPermissionsFor(inactiveTradingAcct);
+		String goldIsinCode = "COF24680";
+		// given - system state
+		Future oil3MnthFuture = createFuture("OIL.3MNTH", "OIL3M0123");
+		Future oil6MnthFuture = createFuture("OIL.6MNTH", "OIL6M0456");
+		Future goldFuture = createFuture("GLD.3MNTH", goldIsinCode);
+		Order order1 = createOrder(tradingAcct, oil3MnthFuture, 1000, 2500);
+		Order order2 = createOrder(tradingAcct, oil6MnthFuture, 1500, 2600);
+		Order order3 = createOrder(tradingAcct, goldFuture, 200, 4300);
+		Order order4 = createOrder(tradingAcct, goldFuture, 150, 4300);
+		OrderSearchService orderSearchService = createOrderService(
+													createOrdersDAO(order1, order2, order3, order4));
+		// when
+		List<Order> orders = orderSearchService.getOrders(trader, inactiveTradingAcct, goldIsinCode);
+		// then
+		assertThat(orders).isEmpty();
+	}
+	
+	private int price(int price) {
+		return price;
+	}
+
+	private int qty(int qty) {
+		return qty;
+	}
+
+	private OrdersDAOInMemory createOrdersDAO(Order order1, Order order2, Order order3, Order order4) {
+		return new OrdersDAOInMemory(order1, order2, order3, order4);
+	}
+
+	private OrderSearchService createOrderService(OrdersDAO ordersDAO) {
+		OrderSearchService orderSearchService = new OrderSearchServiceImpl(ordersDAO);
+		return orderSearchService;
+	}
+	
+	private OrderSearchService prepareOrderService(Order order1, Order order2, Order order3, Order order4) {
+		OrdersDAO orderDAO = createOrdersDAO(order1, order2, order3, order4);
+		OrderSearchService orderSearchService = new OrderSearchServiceImpl(orderDAO);
+		return orderSearchService;
+	}
+
+	private String nextOrderId() {
+		return "ord:" + (++nextOrderId);
+	}
+
+	private Order createOrder(TradingAccount tradingAcct, Future oil3MnthFuture, int qty, int price) {
+		return new Order(nextOrderId(), tradingAcct, oil3MnthFuture, qty, price);
+	}
+	
+	private Order createOrder(String orderId, TradingAccount tradingAcct, Future oil3MnthFuture, int qty, int price) {
+		return new Order(orderId, tradingAcct, oil3MnthFuture, qty, price);
+	}
+
+	private Future createFuture(String desc, String isinCode) {
+		return new Future(desc, new ISIN(isinCode));
+	}
+
+	private Future dummyFuture() {
+		return createFuture(DEFAULT_FUTURE_DESC, DEFAULT_ISIN_CODE);
+	}
+	
+	private static Future DUMMY_FUTURE = new Future(DEFAULT_FUTURE_DESC, new ISIN(DEFAULT_ISIN_CODE));
+
+	private TradingAccount createTradingAccount() {
+		return createTradingAccount(ACTIVE);
+	}
+	private TradingAccount createTradingAccount(AccountStatus status) {
+		TradingAccount tradingAcct = new TradingAccount(
+				new TradingFirm(null, null), new ClearingFirm(null, null), status);
+		return tradingAcct;
+	}
+
+	private Trader createTraderWithPermissionsFor(TradingAccount tradingAccount) {
+		Trader trader = new Trader();
+		trader.setPermissions(Arrays.asList(new Permission(tradingAccount)));
+		return trader;
 	}
 
 }

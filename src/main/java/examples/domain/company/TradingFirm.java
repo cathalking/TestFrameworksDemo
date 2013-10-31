@@ -1,9 +1,14 @@
 package examples.domain.company;
 
 public class TradingFirm {
+	
+	private String name;
+	private String code;
 
-	String name;
-	String code;
+	public TradingFirm(String name, String code) {
+		this.name = name;
+		this.code = code;
+	}
 
 	@Override
 	public int hashCode() {
