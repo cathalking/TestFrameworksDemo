@@ -7,5 +7,6 @@ import examples.domain.trading.Order;
 
 public interface OrdersDAO {
 
-	public List<Order> findBy(TradingAccount tradingAccount);
+	public List<Order> findBy(String accountCode);
+	public List<Order> findBy(String accountCode, String isinCode);
 }

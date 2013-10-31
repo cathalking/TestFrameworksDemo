@@ -40,4 +40,9 @@ public class ClearingFirm {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "ClearingFirm [name=" + name + ", code=" + code + "]";
+	}
+
 }

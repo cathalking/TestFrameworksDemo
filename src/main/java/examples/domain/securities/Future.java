@@ -4,6 +4,11 @@ import examples.specifyinginputs.ISIN;
 
 public class Future implements Product {
 
+	@Override
+	public String toString() {
+		return "Future [desc=" + desc + ", isin=" + isin + "]";
+	}
+
 	private String desc;
 	private ISIN isin;
 

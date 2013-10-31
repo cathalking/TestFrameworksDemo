@@ -17,13 +17,25 @@ public class OrdersDAOInMemory implements OrdersDAO {
 	}
 
 	@Override
-	public List<Order> findBy(TradingAccount tradingAccount) {
+	public List<Order> findBy(String accountCode) {
 		List<Order> matchingOrders = new ArrayList<>();
 		for(Order order: orders) {
-			if (tradingAccount.equals(order.getTradingAccount()))
+			if (accountCode.equals(order.getAccountCode())) {
 				matchingOrders.add(order);
+			}
 		}
-		return orders;
+		return matchingOrders;
+	}
+	
+	public List<Order> findBy(String accountCode, String isinCode) {
+		List<Order> matchingOrders = new ArrayList<>();
+		for(Order order: orders) {
+			if (accountCode.equals(order.getAccountCode())
+					&& isinCode.equals(order.getProduct().getIsinCode())) {
+				matchingOrders.add(order);
+			}
+		}
+		return matchingOrders;
 	}
 
 }

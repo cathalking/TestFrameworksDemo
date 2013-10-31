@@ -37,4 +37,9 @@ public class ISIN {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "ISIN [isinCode=" + isinCode + "]";
+	}
+
 }
