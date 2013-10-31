@@ -1,14 +1,14 @@
-package examples.service;
+package examples.service.search;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import examples.dao.OrdersDAO;
 import examples.domain.company.TradingAccount;
+import examples.domain.permission.Permission;
 import examples.domain.trading.Order;
 import examples.domain.user.Trader;
 import examples.domain.user.User;
-import examples.domain.user.permission.Permission;
 
 public class OrderSearchServiceImpl implements OrderSearchService {
 	

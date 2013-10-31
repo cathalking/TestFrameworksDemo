@@ -2,22 +2,6 @@ package examples.domain.company;
 
 public class TradingAccount {
 
-	public TradingFirm getTradingFirm() {
-		return tradingFirm;
-	}
-
-	public void setTradingFirm(TradingFirm tradingFirm) {
-		this.tradingFirm = tradingFirm;
-	}
-
-	public ClearingFirm getClearingFirm() {
-		return clearingFirm;
-	}
-
-	public void setClearingFirm(ClearingFirm clearingFirm) {
-		this.clearingFirm = clearingFirm;
-	}
-
 	private TradingFirm tradingFirm;
 	private ClearingFirm clearingFirm;
 	private AccountStatus status;
@@ -28,6 +12,14 @@ public class TradingAccount {
 		this.status = status;
 	}
 
+	public TradingFirm getTradingFirm() {
+		return tradingFirm;
+	}
+
+	public ClearingFirm getClearingFirm() {
+		return clearingFirm;
+	}
+	
 	public boolean isActive() {
 		return status.equals(AccountStatus.ACTIVE);
 	}

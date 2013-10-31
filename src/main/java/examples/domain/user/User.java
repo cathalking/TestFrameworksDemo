@@ -2,7 +2,7 @@ package examples.domain.user;
 
 import java.util.List;
 
-import examples.domain.user.permission.Permission;
+import examples.domain.permission.Permission;
 
 public interface User {
 

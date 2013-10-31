@@ -1,4 +1,4 @@
-package examples.specifyinginputs;
+package examples.domain.securities;
 
 public class ISIN {
 

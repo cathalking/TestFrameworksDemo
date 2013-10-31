@@ -3,12 +3,13 @@ package examples.domain.user;
 import java.util.ArrayList;
 import java.util.List;
 
-import examples.domain.user.permission.Permission;
+import examples.domain.permission.Permission;
+import examples.domain.permission.Restriction;
 
 public class Trader implements User {
 
 	private String userName;
-	private List<Permission> permissions;
+	private List<Permission> permissions = new ArrayList<>();
 	private UserDetail userDetail;
 
 	public String getUserName() {
@@ -34,6 +35,14 @@ public class Trader implements User {
 	public void setPermissions(List<Permission> permissions) {
 		this.permissions = new ArrayList<>(permissions);
 	}
+
+	private List<Restriction> restrictions;
 	
+	public List<Restriction> getRestrictions() {
+		return restrictions;
+	}
 	
+	public void setRestrictions(List<Restriction> restrictions) {
+		this.restrictions = new ArrayList<>(restrictions);
+	}
 }

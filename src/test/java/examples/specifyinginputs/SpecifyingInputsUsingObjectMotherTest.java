@@ -19,19 +19,19 @@ import examples.domain.company.AccountStatus;
 import examples.domain.company.ClearingFirm;
 import examples.domain.company.TradingAccount;
 import examples.domain.company.TradingFirm;
+import examples.domain.permission.Permission;
 import examples.domain.securities.Future;
+import examples.domain.securities.ISIN;
 import examples.domain.securities.Product;
 import examples.domain.trading.Order;
 import examples.domain.user.Trader;
 import examples.domain.user.User;
-import examples.domain.user.permission.Permission;
-import examples.service.OrderSearchService;
-import examples.service.OrderSearchServiceImpl;
+import examples.service.search.OrderSearchService;
+import examples.service.search.OrderSearchServiceImpl;
+import examples.test.helpers.OrdersDAOInMemory;
+import static examples.test.helpers.ObjectMother.*;
 
-public class SpecifyingInputsTest {
-
-	private static final String DEFAULT_ISIN_CODE = "ISIN";
-	private static final String DEFAULT_FUTURE_DESC = "DESC";
+public class SpecifyingInputsUsingObjectMotherTest {
 	
 	@Test public void 
 	getOrders_GivenTraderWithAccountPerms_SearchByAccountAndIsin_ThenReturnsMatchingOrders_v1() {
@@ -59,7 +59,6 @@ public class SpecifyingInputsTest {
 		assertThat(orders).containsOnly(order3, order4);
 	}
 	
-	private int nextOrderId = 0;
 	@Test public void // Using helpers
 	getOrders_GivenTraderWithAccountPerms_SearchByAccountAndIsin_ThenReturnsMatchingOrders_v2() {
 		// given - inputs
@@ -86,18 +85,16 @@ public class SpecifyingInputsTest {
 	@Test public void // Using helpers + hiding irrelevant details
 	getOrders_GivenTraderWithAccountPerms_SearchByAccountAndIsin_ThenReturnsMatchingOrders_v3() {
 		// given - inputs
-		String searchAccountCode = "TRDRZ", searchIsinCode = "GLD24680";
+		String searchAccount = "TRDRZ", searchIsin = "GLD24680";
 		Trader trader = createTraderWithPermissionsFor(createTradingAccount("TRDRZ"));
 		// given - system state
-		Order order1 = createOrder("TRDRZ", dummyFuture());
-		Order order2 = createOrder("TRDRZ", dummyFuture());
-		Order order3 = createOrder("TRDRZ", createFuture("GLD24680"));
-		Order order4 = createOrder("TRDRZ", createFuture("GLD24680"));
-		OrderSearchService orderSearchService = createOrderService(
-													createOrdersDAO(order1, order2, order3, order4));
+		Order order1 = createOrder("TRDRZ", dummyFuture()),
+			  order2 = createOrder("TRDRZ", dummyFuture()),
+			  order3 = createOrder("TRDRZ", createFuture("GLD24680")),
+			  order4 = createOrder("TRDRZ", createFuture("GLD24680"));
+		OrderSearchService service = createOrderService(createOrdersDAO(order1, order2, order3, order4));
 		// when
-		List<Order> orders = 
-				orderSearchService.getOrders(trader, searchAccountCode, searchIsinCode);
+		List<Order> orders = service.getOrders(trader, searchAccount, searchIsin);
 		// then
 		assertThat(orders).containsOnly(order3, order4);
 	}
@@ -106,18 +103,17 @@ public class SpecifyingInputsTest {
 	// that again shows only relevent detail jumping out
 	getOrders_GivenTraderWithAccountPerms_SearchByAccount_ThenReturnsMatchingOrders_v3() {
 		// given - inputs
-		String searchAccountCode = "TRDRZ";
+		String searchAccount = "TRDRZ";
 		Trader trader = createTraderWithPermissionsFor(createTradingAccount("TRDRZ"));
 		// given - system state
 		Order order1 = createOrder("TRDRZ", dummyFuture());
 		Order order2 = createOrder("TRDRZ", dummyFuture());
 		Order order3 = createOrder("TRDRZ", dummyFuture());
 		Order order4 = createOrder("TRDRZ", dummyFuture());
-		OrderSearchService orderSearchService = createOrderService(
-													createOrdersDAO(order1, order2, order3, order4));
+		OrderSearchService service = createOrderService( createOrdersDAO(order1, order2, order3, order4));
 		// when
 		List<Order> orders = 
-				orderSearchService.getOrders(trader, searchAccountCode);
+				service.getOrders(trader, searchAccount);
 		// then
 		assertThat(orders).containsOnly(order1, order2, order3, order4);
 	}
@@ -150,75 +146,7 @@ public class SpecifyingInputsTest {
 		// then
 		assertThat(orders).isEmpty();
 	}
+
 	
-	private int price(int price) {
-		return price;
-	}
-
-	private int qty(int qty) {
-		return qty;
-	}
-
-	private OrdersDAOInMemory createOrdersDAO(Order order1, Order order2, Order order3, Order order4) {
-		return new OrdersDAOInMemory(order1, order2, order3, order4);
-	}
-
-	private OrderSearchService createOrderService(OrdersDAO ordersDAO) {
-		OrderSearchService orderSearchService = new OrderSearchServiceImpl(ordersDAO);
-		return orderSearchService;
-	}
-	
-	private OrderSearchService prepareOrderService(Order order1, Order order2, Order order3, Order order4) {
-		OrdersDAO orderDAO = createOrdersDAO(order1, order2, order3, order4);
-		OrderSearchService orderSearchService = new OrderSearchServiceImpl(orderDAO);
-		return orderSearchService;
-	}
-
-	private String nextOrderId() {
-		return "ord:" + (++nextOrderId);
-	}
-	
-
-	private Order createOrder(String accountCode, Future dummyFuture) {
-		return createOrder(accountCode, dummyFuture, qty(0), price(0));
-	}
-
-	private Order createOrder(String accountCode, Future future, int qty, int price) {
-		return new Order(nextOrderId(), accountCode, future, qty, price);
-	}
-	
-	private Order createOrder(String orderId, TradingAccount tradingAcct, Future future, int qty, int price) {
-		return new Order(orderId, tradingAcct.getTradingFirm().getCode(), future, qty, price);
-	}
-
-	private Future createFuture(String desc, String isinCode) {
-		return new Future(desc, new ISIN(isinCode));
-	}
-	
-	private Future createFuture(String isinCode) {
-		return createFuture(DEFAULT_FUTURE_DESC, isinCode);
-	}
-
-	private Future dummyFuture() {
-		return createFuture(DEFAULT_FUTURE_DESC, DEFAULT_ISIN_CODE);
-	}
-	
-	private static Future DUMMY_FUTURE = new Future(DEFAULT_FUTURE_DESC, new ISIN(DEFAULT_ISIN_CODE));
-
-	private TradingAccount createTradingAccount(String accountCode) {
-		return createTradingAccount(ACTIVE, accountCode);
-	}
-
-	private TradingAccount createTradingAccount(AccountStatus status, String tradingFirmCode) {
-		TradingAccount tradingAcct = new TradingAccount(
-				new TradingFirm(null, tradingFirmCode), new ClearingFirm(null, null), status);
-		return tradingAcct;
-	}
-	
-	private Trader createTraderWithPermissionsFor(TradingAccount tradingAccount) {
-		Trader trader = new Trader();
-		trader.setPermissions(Arrays.asList(new Permission(tradingAccount)));
-		return trader;
-	}
 
 }

@@ -1,4 +1,4 @@
-package examples.domain.user.permission;
+package examples.domain.permission;
 
 import examples.domain.company.TradingAccount;
 

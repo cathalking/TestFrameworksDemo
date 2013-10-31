@@ -1,4 +1,4 @@
-package examples.specifyinginputs;
+package examples.test.helpers;
 
 import static org.junit.Assert.*;
 

@@ -1,4 +1,4 @@
-package examples.service;
+package examples.service.search;
 
 import java.util.List;
 

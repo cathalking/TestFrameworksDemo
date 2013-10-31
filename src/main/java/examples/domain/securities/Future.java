@@ -1,6 +1,5 @@
 package examples.domain.securities;
 
-import examples.specifyinginputs.ISIN;
 
 public class Future implements Product {
 

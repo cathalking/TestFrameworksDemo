@@ -1,4 +1,4 @@
-package examples.specifyinginputs;
+package examples.test.helpers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
