@@ -1,4 +1,4 @@
-package examples.domain.user;
+package tradingapp.domain.user;
 
 public class UserDetail {
 

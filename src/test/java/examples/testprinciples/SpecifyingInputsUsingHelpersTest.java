@@ -1,10 +1,10 @@
-package examples.specifyinginputs;
+package examples.testprinciples;
 
 import static org.junit.Assert.*;
-import static examples.domain.company.AccountStatus.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.BDDMockito.*;
 import static org.fest.assertions.api.Assertions.*;
+import static tradingapp.domain.company.AccountStatus.*;
 import static examples.assertions.custom.ProjectAssertions.*;
 
 import java.util.Arrays;
@@ -14,18 +14,18 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import examples.dao.OrdersDAO;
-import examples.domain.company.AccountStatus;
-import examples.domain.company.ClearingFirm;
-import examples.domain.company.TradingAccount;
-import examples.domain.company.TradingFirm;
-import examples.domain.permission.Permission;
-import examples.domain.securities.Future;
-import examples.domain.securities.ISIN;
-import examples.domain.securities.Product;
-import examples.domain.trading.Order;
-import examples.domain.user.Trader;
-import examples.domain.user.User;
+import tradingapp.dao.OrdersDAO;
+import tradingapp.domain.company.AccountStatus;
+import tradingapp.domain.company.ClearingFirm;
+import tradingapp.domain.company.TradingAccount;
+import tradingapp.domain.company.TradingFirm;
+import tradingapp.domain.permission.Permission;
+import tradingapp.domain.securities.Future;
+import tradingapp.domain.securities.ISIN;
+import tradingapp.domain.securities.Product;
+import tradingapp.domain.trading.Order;
+import tradingapp.domain.user.Trader;
+import tradingapp.domain.user.User;
 import examples.service.search.OrderSearchService;
 import examples.service.search.OrderSearchServiceImpl;
 import examples.test.helpers.OrdersDAOInMemory;

@@ -1,7 +1,7 @@
 package examples.test.builders;
 
-import examples.domain.company.TradingAccount;
-import examples.domain.permission.Permission;
+import tradingapp.domain.company.TradingAccount;
+import tradingapp.domain.permission.Permission;
 
 public class PermissionBuilder {
 

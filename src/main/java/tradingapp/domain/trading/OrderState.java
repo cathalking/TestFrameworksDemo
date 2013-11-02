@@ -1,4 +1,4 @@
-package examples.domain.trading;
+package tradingapp.domain.trading;
 
 public enum OrderState {
 

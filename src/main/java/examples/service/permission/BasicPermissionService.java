@@ -1,9 +1,9 @@
 package examples.service.permission;
 
-import examples.domain.company.TradingAccount;
-import examples.domain.permission.Permission;
-import examples.domain.trading.Order;
-import examples.domain.user.Trader;
+import tradingapp.domain.company.TradingAccount;
+import tradingapp.domain.permission.Permission;
+import tradingapp.domain.trading.Order;
+import tradingapp.domain.user.Trader;
 
 public class BasicPermissionService implements PermissionService {
 

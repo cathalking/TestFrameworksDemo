@@ -1,6 +1,6 @@
 package examples.test.builders;
 
-import examples.domain.user.UserDetail;
+import tradingapp.domain.user.UserDetail;
 
 public class UserDetailBuilder {
 

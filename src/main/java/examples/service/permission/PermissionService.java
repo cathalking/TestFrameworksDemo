@@ -1,7 +1,7 @@
 package examples.service.permission;
 
-import examples.domain.trading.Order;
-import examples.domain.user.Trader;
+import tradingapp.domain.trading.Order;
+import tradingapp.domain.user.Trader;
 
 public interface PermissionService {
 

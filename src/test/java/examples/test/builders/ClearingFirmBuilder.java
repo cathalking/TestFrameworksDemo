@@ -1,6 +1,6 @@
 package examples.test.builders;
 
-import examples.domain.company.ClearingFirm;
+import tradingapp.domain.company.ClearingFirm;
 
 public class ClearingFirmBuilder {
 

@@ -1,8 +1,8 @@
 package examples.test.builders;
 
-import examples.domain.securities.Future;
+import tradingapp.domain.securities.Future;
+import tradingapp.domain.securities.ISIN;
 import static examples.test.builders.ClearingFirmBuilder.*;
-import examples.domain.securities.ISIN;
 import static examples.test.builders.ISINBuilder.*;
 
 public class FutureBuilder {

@@ -1,7 +1,7 @@
-package examples.domain.trading;
+package tradingapp.domain.trading;
 
-import examples.domain.company.TradingAccount;
-import examples.domain.securities.Product;
+import tradingapp.domain.company.TradingAccount;
+import tradingapp.domain.securities.Product;
 
 public class Order {
 

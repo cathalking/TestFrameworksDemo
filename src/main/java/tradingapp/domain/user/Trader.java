@@ -1,10 +1,10 @@
-package examples.domain.user;
+package tradingapp.domain.user;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import examples.domain.permission.Permission;
-import examples.domain.permission.Restriction;
+import tradingapp.domain.permission.Permission;
+import tradingapp.domain.permission.Restriction;
 
 public class Trader implements User {
 

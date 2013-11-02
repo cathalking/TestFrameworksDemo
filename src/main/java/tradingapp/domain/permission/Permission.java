@@ -1,6 +1,6 @@
-package examples.domain.permission;
+package tradingapp.domain.permission;
 
-import examples.domain.company.TradingAccount;
+import tradingapp.domain.company.TradingAccount;
 
 public class Permission {
 

@@ -1,6 +1,6 @@
 package examples.test.builders;
 
-import examples.domain.securities.ISIN;
+import tradingapp.domain.securities.ISIN;
 
 public class ISINBuilder {
 

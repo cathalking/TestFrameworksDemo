@@ -1,9 +1,9 @@
-package examples.dao;
+package tradingapp.dao;
 
 import java.util.List;
 
-import examples.domain.company.TradingAccount;
-import examples.domain.trading.Order;
+import tradingapp.domain.company.TradingAccount;
+import tradingapp.domain.trading.Order;
 
 public interface OrdersDAO {
 

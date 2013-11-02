@@ -1,4 +1,4 @@
-package examples.domain.company;
+package tradingapp.domain.company;
 
 public class ClearingFirm {
 

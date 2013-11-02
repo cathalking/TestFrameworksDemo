@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import examples.dao.OrdersDAO;
-import examples.domain.company.TradingAccount;
-import examples.domain.trading.Order;
+import tradingapp.dao.OrdersDAO;
+import tradingapp.domain.company.TradingAccount;
+import tradingapp.domain.trading.Order;
 
 public class OrdersDAOInMemory implements OrdersDAO {
 

@@ -5,18 +5,22 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import examples.domain.permission.Permission;
-import examples.domain.permission.Restriction;
-import examples.domain.user.Trader;
-import examples.domain.user.UserDetail;
-import static examples.test.builders.UserDetailBuilder.*;
+import tradingapp.domain.permission.Permission;
+import tradingapp.domain.permission.Restriction;
+import tradingapp.domain.user.Trader;
+import tradingapp.domain.user.UserDetail;
 
 public class TraderBuilder {
-	private String userName = "trader1";;
-	private UserDetail userDetail = aUserDetail().build();
-	private List<Permission> permissions = Collections.emptyList();
-	private List<Restriction> restrictions = Collections.emptyList();
-	
+    public static String DEFAULT_USERNAME = "trader1";
+    public static UserDetail DEFAULT_USERDETAIL = new UserDetail();
+    public static List<Permission> NO_PERMISSIONS = Collections.emptyList();
+    public static List<Restriction> NO_RESTRICTIONS = Collections.emptyList();
+
+    private String userName = DEFAULT_USERNAME;
+    private UserDetail userDetail = DEFAULT_USERDETAIL;
+    private List<Permission> permissions = NO_PERMISSIONS;
+    private List<Restriction> restrictions = NO_RESTRICTIONS;
+    
 	private TraderBuilder() { }
 	
 	public static TraderBuilder aTrader() {
@@ -37,7 +41,7 @@ public class TraderBuilder {
 		return this;
 	}
 
-	public TraderBuilder withUserDetail(UserDetail userDetail) {
+	public TraderBuilder with(UserDetail userDetail) {
 		this.userDetail = userDetail;
 		return this;
 	}
@@ -48,7 +52,8 @@ public class TraderBuilder {
 	}
 	
 	public TraderBuilder with(PermissionBuilder permission) {
-		return withPermissions(permission);
+		this.permissions = new ArrayList<>(Arrays.asList(permission.build()));
+		return this;
 	}
 	
 	public TraderBuilder withNoPermissions() {
@@ -56,8 +61,8 @@ public class TraderBuilder {
 		return this;
 	}
 
-	public TraderBuilder withPermissions(PermissionBuilder permission) {
-		this.permissions = new ArrayList<>(Arrays.asList(permission.build()));
+	public TraderBuilder with(RestrictionBuilder restriction) {
+		this.restrictions = new ArrayList<>(Arrays.asList(restriction.build()));
 		return this;
 	}
 	
@@ -69,7 +74,7 @@ public class TraderBuilder {
 	public TraderBuilder but() {
 		return new TraderBuilder()
 						.withUserName(userName)
-						.withUserDetail(userDetail)
+						.with(userDetail)
 						.withPermissions(permissions)
 						.withRestrictions(restrictions);
 	}

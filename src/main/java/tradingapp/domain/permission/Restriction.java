@@ -1,6 +1,6 @@
-package examples.domain.permission;
+package tradingapp.domain.permission;
 
-import examples.domain.securities.Product;
+import tradingapp.domain.securities.Product;
 
 public class Restriction {
 

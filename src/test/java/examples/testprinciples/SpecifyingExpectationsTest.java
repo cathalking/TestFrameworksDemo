@@ -1,4 +1,4 @@
-package examples.specifyinginputs;
+package examples.testprinciples;
 
 import static examples.assertions.custom.ProjectAssertions.assertThat;
 import static org.fest.assertions.api.Assertions.assertThat;
@@ -13,8 +13,8 @@ import java.util.List;
 
 import org.junit.Test;
 
-import examples.domain.trading.Order;
-import examples.domain.user.Trader;
+import tradingapp.domain.trading.Order;
+import tradingapp.domain.user.Trader;
 
 public class SpecifyingExpectationsTest {
 

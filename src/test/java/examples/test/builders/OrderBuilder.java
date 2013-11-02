@@ -1,8 +1,8 @@
 package examples.test.builders;
 
-import examples.domain.securities.Product;
-import examples.domain.trading.Order;
-import examples.domain.trading.OrderState;
+import tradingapp.domain.securities.Product;
+import tradingapp.domain.trading.Order;
+import tradingapp.domain.trading.OrderState;
 import static examples.test.builders.FutureBuilder.*;
 
 public class OrderBuilder {

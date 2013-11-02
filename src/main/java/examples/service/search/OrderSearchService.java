@@ -2,8 +2,8 @@ package examples.service.search;
 
 import java.util.List;
 
-import examples.domain.trading.Order;
-import examples.domain.user.Trader;
+import tradingapp.domain.trading.Order;
+import tradingapp.domain.user.Trader;
 
 public interface OrderSearchService {
 

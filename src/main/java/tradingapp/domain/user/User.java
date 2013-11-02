@@ -1,8 +1,8 @@
-package examples.domain.user;
+package tradingapp.domain.user;
 
 import java.util.List;
 
-import examples.domain.permission.Permission;
+import tradingapp.domain.permission.Permission;
 
 public interface User {
 

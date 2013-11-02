@@ -1,4 +1,4 @@
-package examples.domain.securities;
+package tradingapp.domain.securities;
 
 public class ISIN {
 

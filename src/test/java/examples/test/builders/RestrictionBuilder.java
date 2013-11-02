@@ -1,7 +1,7 @@
 package examples.test.builders;
 
-import examples.domain.permission.Restriction;
-import examples.domain.securities.Product;
+import tradingapp.domain.permission.Restriction;
+import tradingapp.domain.securities.Product;
 import static examples.test.builders.FutureBuilder.*;
 
 public class RestrictionBuilder {

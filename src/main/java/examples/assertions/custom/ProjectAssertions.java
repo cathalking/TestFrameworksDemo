@@ -2,8 +2,8 @@ package examples.assertions.custom;
 
 import org.fest.assertions.api.Assertions;
 
+import tradingapp.domain.user.Trader;
 import examples.assertions.custom.TraderAssert;
-import examples.domain.user.Trader;
 
 public class ProjectAssertions extends Assertions {
 	

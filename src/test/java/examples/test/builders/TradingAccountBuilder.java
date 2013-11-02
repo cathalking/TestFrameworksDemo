@@ -1,9 +1,9 @@
 package examples.test.builders;
 
-import examples.domain.company.AccountStatus;
-import examples.domain.company.ClearingFirm;
-import examples.domain.company.TradingAccount;
-import examples.domain.company.TradingFirm;
+import tradingapp.domain.company.AccountStatus;
+import tradingapp.domain.company.ClearingFirm;
+import tradingapp.domain.company.TradingAccount;
+import tradingapp.domain.company.TradingFirm;
 import static examples.test.builders.TradingFirmBuilder.*;
 import static examples.test.builders.ClearingFirmBuilder.*;
 

@@ -1,37 +1,50 @@
-package examples.specifyinginputs;
+package examples.testprinciples;
 
 import static org.junit.Assert.*;
-import static examples.domain.company.AccountStatus.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.BDDMockito.*;
 import static org.fest.assertions.api.Assertions.*;
+import static tradingapp.domain.company.AccountStatus.*;
 import static examples.assertions.custom.ProjectAssertions.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
 
-import examples.dao.OrdersDAO;
-import examples.domain.company.AccountStatus;
-import examples.domain.company.ClearingFirm;
-import examples.domain.company.TradingAccount;
-import examples.domain.company.TradingFirm;
-import examples.domain.permission.Permission;
-import examples.domain.securities.Future;
-import examples.domain.securities.ISIN;
-import examples.domain.securities.Product;
-import examples.domain.trading.Order;
-import examples.domain.user.Trader;
-import examples.domain.user.User;
+import tradingapp.dao.OrdersDAO;
+import tradingapp.domain.company.AccountStatus;
+import tradingapp.domain.company.ClearingFirm;
+import tradingapp.domain.company.TradingAccount;
+import tradingapp.domain.company.TradingFirm;
+import tradingapp.domain.permission.Permission;
+import tradingapp.domain.securities.Future;
+import tradingapp.domain.securities.ISIN;
+import tradingapp.domain.securities.Product;
+import tradingapp.domain.trading.Order;
+import tradingapp.domain.user.Trader;
+import tradingapp.domain.user.User;
 import examples.service.search.OrderSearchService;
 import examples.service.search.OrderSearchServiceImpl;
+import examples.test.builders.OrderBuilder;
+import examples.test.builders.PermissionBuilder;
+import examples.test.builders.TraderBuilder;
+import examples.test.builders.TradingAccountBuilder;
 import examples.test.helpers.OrdersDAOInMemory;
 import static examples.test.helpers.ObjectMother.*;
+import static examples.test.builders.UserDetailBuilder.*;
+import static examples.test.builders.TraderBuilder.*;
+import static examples.test.builders.TradingAccountBuilder.*;
+import static examples.test.builders.OrderBuilder.*;
+import static examples.test.builders.ISINBuilder.*;
+import static examples.test.builders.TradingFirmBuilder.*;
+import static examples.test.builders.FutureBuilder.*;
+import static examples.test.builders.PermissionBuilder.*;
 
-public class SpecifyingInputsUsingObjectMotherTest {
+public class SpecifyingInputsUsingBuildersTest {
 	
 	@Test public void 
 	getOrders_GivenTraderWithAccountPerms_SearchByAccountAndIsin_ThenReturnsMatchingOrders_v1() {
@@ -97,6 +110,59 @@ public class SpecifyingInputsUsingObjectMotherTest {
 		List<Order> orders = service.getOrders(trader, searchAccount, searchIsin);
 		// then
 		assertThat(orders).containsOnly(order3, order4);
+	}
+	
+	@Test public void // Using Test Data Builders
+	getOrders_GivenTraderWithAccountPerms_SearchByAccountAndIsin_ThenReturnsMatchingOrders_v4() {
+		// given - inputs
+		String searchAccount = "TRDRZ", searchIsin = "GLD24680";
+		Trader trader = aTrader().with(aPermission()
+									.with(aTradingAccount()
+									 		.with(aTradingFirm().withCode("TRDRZ")))).build();
+		// given - system state
+		OrderBuilder matchingOrder = anOrder().withAccountCode("TRDRZ")
+					.with(aFuture().with(anISIN().withIsinCode("GLD24680")).build());
+		Order order1 = anOrder().withAccountCode("TRDRZ").build(),
+			  order2 = anOrder().withAccountCode("TRDRZ").build(),
+			  order3 = matchingOrder.build(),
+			  order4 = matchingOrder.build();
+		OrderSearchService service = createOrderService(createOrdersDAO(order1, order2, order3, order4));
+		// when
+		List<Order> orders = service.getOrders(trader, searchAccount, searchIsin);
+		// then
+		assertThat(orders).containsOnly(order3, order4);
+	}
+	
+	@Test public void // Using Test Data Builders to create input data variations
+	getOrders_GivenTraderWithVariousPermissions_SearchByAccountAndIsin_ThenReturnsMatchingOrders_v5() {
+		// given - inputs
+		String searchAccount = "TRDRZ", searchIsin = "GLD24680";
+		TradingAccountBuilder tradingAccount = aTradingAccount().with(aTradingFirm().withCode("TRDRZ"));
+		Trader traderWithNoPerms = aTrader().withNoPermissions().build();
+		Trader traderWithPerms = aTrader().with(aPermission().with(tradingAccount)).build();
+		Trader traderWithInactivePerms = aTrader().with(aPermission().with(
+													tradingAccount.but().isInActive())).build();
+		// given - system state
+		OrderBuilder matchingOrder = anOrder().withAccountCode("TRDRZ")
+					.with(aFuture().with(anISIN().withIsinCode("GLD24680")).build());
+		Order order1 = anOrder().withAccountCode("TRDRZ").build(),
+			  order2 = anOrder().withAccountCode("TRDRZ").build(),
+			  order3 = matchingOrder.build(),
+			  order4 = matchingOrder.build();
+		OrderSearchService service = createOrderService(createOrdersDAO(order1, order2, order3, order4));
+		// when
+		List<Order> orders1 = service.getOrders(traderWithNoPerms, searchAccount, searchIsin);
+		List<Order> orders2 = service.getOrders(traderWithPerms, searchAccount, searchIsin);
+		List<Order> orders3 = service.getOrders(traderWithInactivePerms, searchAccount, searchIsin);
+		// then
+		assertThat(orders1).isEmpty();
+		assertThat(orders2).containsOnly(order3, order4);
+		assertThat(orders3).isEmpty();
+	}
+
+	@Test public void // Using Test Data Builders
+	getOrders_GivenTraderWithAccountPerms_SearchByAccountAndIsin_ThenReturnsMatchingOrders_v6() {
+
 	}
 	
 	@Test public void // Using helpers + hiding irrelevant details - Showing variation of test
